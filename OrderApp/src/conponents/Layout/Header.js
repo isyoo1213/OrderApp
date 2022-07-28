@@ -2,13 +2,14 @@ import React, { Fragment } from "react";
 
 import mealsImage from '../../assets/meals.jpg';
 import styles from './Header.module.css';
+import HeaderCartButton from "./HeaderCartButton";
 
 const Header = () => {
   return (
     <Fragment>
       <header className={styles.header}>
         <h1>KoalaMeals</h1>
-        <button>Cart</button>
+        <HeaderCartButton />
       </header>
       <div className={styles['main-image']}>
         {/* 대쉬가 있을 경우 점표기법이 불가능하므로 특성선택자 */}
