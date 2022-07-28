@@ -11,6 +11,7 @@ const MealItemForm = (props) => {
       step: '1',
       defaultValue: '1'
     }} />
+    {/* input의 attributes는 모두 '' 문자열로 표기함 */}
     <button>+ Add</button>
   </form>
 }
