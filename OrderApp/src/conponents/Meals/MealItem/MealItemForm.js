@@ -4,7 +4,7 @@ import Input from '../../UI/Input';
 const MealItemForm = (props) => {
   return <form className={styles.form}>
     <Input label='Amount' input={{
-      id: 'amount_'+props.id,
+      id: 'amount_of_'+props.id,
       type: 'number',
       min: '1',
       max: '99',
