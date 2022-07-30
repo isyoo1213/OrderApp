@@ -13,9 +13,12 @@ const HeaderCartButton = (props) => {
       >> 이후 app.js 하위에서 context를 사용할 시, useContext(CartContext)를 통해 연결..? */
   }
 
+  console.log(cartCtx.items);
   const numberOfCartItems = cartCtx.items.reduce((currentNumber, item) => {
+    console.log('HeaderCartButton에서 카트 내 아이템 갯수 확인 함수 진입');
     return currentNumber + item.amount;
   }, 0);
+
   {
     /* 3인분이든 5인분이든 해당 item이 하나로 카운트되기 위해 length가 아닌 reduce 사용 */
   }
@@ -29,7 +32,7 @@ const HeaderCartButton = (props) => {
         <CartIcon />
       </span>
       <span>Your Cart</span>
-      <span className={styles.badge}>3</span>
+      <span className={styles.badge}>{numberOfCartItems}</span>
     </button>
   );
 };

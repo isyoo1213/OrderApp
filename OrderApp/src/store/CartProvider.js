@@ -7,20 +7,23 @@ import CartContext from "./cart-context";
 
 const defaultCartState = {
   items: [],
-  totalAmount: 0,
+  totalPrice: 0,
 };
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD_CART_ITEM") {
-    const updatedItems = state.items.concat(action.item);
+    const updatedItems = state.items.concat(action.value);
     {
       /*concat()메서드는 새롭게 추가된 새 배열을 반환. 기존의 메모리에 저장된 배열을 수정하면 react에서 인식 오류 가능 */
     }
-    const updatedTotalAmount =
-      state.totalAmount + action.item.amount * action.item.price;
+    console.log('cartReducer에서 해당 메뉴 item으로 추가 완료');
+    const updatedTotalPrice =
+      state.totalPrice + action.value.amount * action.value.price;
+    console.log('cartReducer에서 해당 메뉴의 주문 개수에 따른 총 가격 추가 완료');
+    console.log(`TotalPrice = $${updatedTotalPrice}`);
     return {
       items: updatedItems,
-      totalAmount: updatedTotalAmount,
+      totalPrice: updatedTotalPrice,
     };
   }
   return defaultCartState;
@@ -42,7 +45,7 @@ const CartProvider = (props) => {
 
   const cartContext = {
     items: cartState.items,
-    totalAmount: cartState.totalAmount,
+    totalPrice: cartState.totalPrice,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
   };
