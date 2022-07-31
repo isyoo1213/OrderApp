@@ -11,9 +11,13 @@ const Cart = (props) => {
 
   const hasCartItems = cartCtx.items.length > 0;
 
-  const cartItemRemoveHandler = (id) => {};
+  const cartItemRemoveHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
 
-  const cartItemAddHandler = (item) => {};
+  const cartItemAddHandler = (item) => {
+    cartCtx.addItem({ ...item, amount: 1 });
+  };
 
   const cartItems = (
     <ul className={styles["cart-items"]}>
@@ -24,7 +28,7 @@ const Cart = (props) => {
           amount={item.amount}
           price={item.price}
           onRemove={cartItemRemoveHandler.bind(null, item.id)}
-          onAdd={cartItemAddHandler(null, item)}
+          onAdd={cartItemAddHandler.bind(null, item)}
         />
       ))}
       {/* 메서드를 binding하는 정확한 이유는..?  */}
