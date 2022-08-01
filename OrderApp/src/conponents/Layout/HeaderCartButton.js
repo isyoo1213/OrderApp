@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CartIcon from "../Cart/CartIcon";
 import styles from "./HeaderCartButton.module.css";
 import CartContext from "../../store/cart-context";
 
 const HeaderCartButton = (props) => {
+  const [buttonHighlight, setButtonHighlight] = useState(false);
   const cartCtx = useContext(CartContext);
   {
     /* cartCtx가 CartProvider컴포넌트에서 업데이트 될 때마다 리액트는 컴포넌트를 재평가 */
@@ -14,8 +15,11 @@ const HeaderCartButton = (props) => {
   }
 
   console.log(cartCtx.items);
-  const numberOfCartItems = cartCtx.items.reduce((currentNumber, item) => {
-    console.log('HeaderCartButton에서 카트 내 아이템 갯수 확인 함수 진입');
+
+  const { items } = cartCtx;
+
+  const numberOfCartItems = items.reduce((currentNumber, item) => {
+    console.log("HeaderCartButton에서 카트 내 아이템 갯수 확인 함수 진입");
     return currentNumber + item.amount;
   }, 0);
 
@@ -26,8 +30,27 @@ const HeaderCartButton = (props) => {
     /* reduce()에서 첫 인자 - 함수 / 두 번째 인자 - 시작값 
       첫 인자에서 두 개의 인자 필요 - JS에서 reduce를 호출하는 배열의 모든 항목에 대해 자동으로 설정*/
   }
+
+  const buttonStyles = `${styles.button} ${buttonHighlight ? styles.bump : ""}`;
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+    setButtonHighlight(true);
+
+    const timer = setTimeout(() => {
+      setButtonHighlight(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    }
+
+  }, [items]);
+
   return (
-    <button className={styles.button} onClick={props.onClick}>
+    <button className={buttonStyles} onClick={props.onClick}>
       <span className={styles.icon}>
         <CartIcon />
       </span>
