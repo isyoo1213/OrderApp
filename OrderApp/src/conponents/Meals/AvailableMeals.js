@@ -6,6 +6,7 @@ import MealItem from "./MealItem/MealItem";
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [httpError, setHttpError] = useState();
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -15,6 +16,11 @@ const AvailableMeals = () => {
         "https://react-orderapp-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json",
         {}
       );
+
+      if(!response.ok){
+        throw new Error('Something went wrong!');
+      }
+      {/* 에러 발생시 아래 코드들은 실행되지 않고 빠져나옴 */}
 
       const responseData = await response.json();
 
@@ -39,16 +45,29 @@ const AvailableMeals = () => {
     };
 
     { /* useEffcet는 클린업 함수를 동기적으로 제공해야 할 수 있으므로 promise나 await를 직접 받지 않음 >> 함수 선언 후     일부로서 실행 */}
-
-    fetchMeals();
+    // try{
+      fetchMeals().catch((error)=>{
+        setIsLoading(false);
+        setHttpError(error.message);
+      });
+      {/* fetchMeals는 비동기 함수로 promise를 반환하지만, 에러 발생 시 promise 반환을 거부당함
+          >> try/catch로 래핑할 수 없음 >> promise 내부의 오류를 핸들링하는 메서드 사용 */}
+    // } catch (error) {
+    //   setIsLoading(false);
+    //   setHttpError(error.message);
+    // }
 
   }, []);
 
   { /* 만약 state인 meals를 의존성으로 추가하면, 무한루프 발생  */ }
 
-  if(isLoading){
+  if (isLoading) {
     return <section className={styles.mealsLoading}>
       <p>Loading Meals... Please wait for a seconds!</p>
+    </section>
+  } else if (httpError) {
+    return <section className={styles.mealsError}>
+      <p>{httpError}</p>
     </section>
   }
 
