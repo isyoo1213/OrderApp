@@ -50,6 +50,13 @@ const Checkout = (props) => {
     if (!formIsValid) {
       return;
     }
+
+    props.onConfirm({
+      name: enteredName,
+      postal: enteredPostal,
+      address: enteredAddress,
+      detailAddress: enteredDetailAddress
+    });
   };
 
   const inputControlStyles = (inputValidity) => {
