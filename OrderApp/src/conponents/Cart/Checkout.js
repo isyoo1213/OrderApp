@@ -1,30 +1,40 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./Checkout.module.css";
 
 const Checkout = (props) => {
+  const nameInputRef = useRef();
+  const postalInputRef = useRef();
+  const addressInputRef = useRef();
+  const detailAddressInputRef = useRef();
+
   const confirmHandler = (event) => {
     event.preventDefault();
+
+    const enteredName = nameInputRef.current.value;
+    const enteredPostal = postalInputRef.current.value;
+    const enteredAddress = addressInputRef.current.value;
+    const enteredDetailAddress = detailAddressInputRef.current.value;
+
   };
 
   return (
     <form className={styles.form} onSubmit={confirmHandler}>
       <div className={styles.control}>
         <label htmlFor="name">Your Name</label>
-        <input type="text" id="name" />
-      </div>
-      <div className={styles.control}>
-        <label htmlFor="street">Street</label>
-        <input type="text" id="street" />
+        <input type="text" id="name" ref={nameInputRef} />
       </div>
       <div className={styles.control}>
         <label htmlFor="postal">Postal Code</label>
-        <input type="text" id="postal" />
+        <input type="text" id="postal" ref={postalInputRef} />
         {/* default null을 피하기 위해 text 타입으로 설정 */}
       </div>
       <div className={styles.control}>
-        <label htmlFor="postal">Postal Code</label>
-        <input type="text" id="postal" />
-        {/* default null을 피하기 위해 text 타입으로 설정 */}
+        <label htmlFor="address">Address</label>
+        <input type="text" id="address" ref={addressInputRef} />
+      </div>
+      <div className={styles.control}>
+        <label htmlFor="detailAddress">Detail Address</label>
+        <input type="text" id="detailAddress" ref={detailAddressInputRef} />
       </div>
       <div className={styles.actions}>
         <button type="button" onClick={props.onCancel}>
